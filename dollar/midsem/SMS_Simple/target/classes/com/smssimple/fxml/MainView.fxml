@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.smssimple.ui.MainController"
+            prefWidth="1200" prefHeight="700">
+
+    <!-- Top Menu Bar -->
+    <top>
+        <MenuBar>
+            <Menu text="File">
+                <MenuItem text="Exit" onAction="#onExit"/>
+            </Menu>
+            <Menu text="Data">
+                <MenuItem text="Add Student" onAction="#onAddStudent"/>
+                <MenuItem text="Import CSV" onAction="#onImport"/>
+                <MenuItem text="Export CSV" onAction="#onExportAll"/>
+            </Menu>
+            <Menu text="Help">
+                <MenuItem text="About" onAction="#onAbout"/>
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <!-- Center - TabPane with all sections -->
+    <center>
+        <TabPane fx:id="mainTabs" tabClosingPolicy="UNAVAILABLE">
+            
+            <!-- Dashboard Tab -->
+            <Tab text="Dashboard">
+                <VBox spacing="20" style="-fx-padding: 20;">
+                    <Label text="Student Management System" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                    
+                    <!-- Stats Grid -->
+                    <GridPane hgap="15" vgap="15">
+                        <Label text="Total Students:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblTotal" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        
+                        <Label text="Active:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblActive" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        
+                        <Label text="Inactive:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblInactive" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        
+                        <Label text="Average GPA:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblAvgGpa" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    </GridPane>
+                </VBox>
+            </Tab>
+
+            <!-- Students Tab -->
+            <Tab text="Students">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <!-- Search and Actions -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Search:"/>
+                        <TextField fx:id="txtSearch" promptText="Enter ID or name" prefWidth="200"/>
+                        <Button text="Search" onAction="#onSearch"/>
+                        <Button text="Clear" onAction="#onClear"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Add" onAction="#onAddStudent" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                        <Button text="Edit" onAction="#onEditStudent"/>
+                        <Button text="Delete" onAction="#onDeleteStudent" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                    </HBox>
+
+                    <!-- Filter Row -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Programme:"/>
+                        <ComboBox fx:id="cboProgramme" prefWidth="150"/>
+                        <Label text="Level:"/>
+                        <ComboBox fx:id="cboLevel" prefWidth="100"/>
+                        <Label text="Status:"/>
+                        <ComboBox fx:id="cboStatus" prefWidth="100"/>
+                        <Button text="Apply Filter" onAction="#onFilter"/>
+                    </HBox>
+
+                    <!-- Table -->
+                    <TableView fx:id="studentTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colId" text="Student ID" prefWidth="120"/>
+                            <TableColumn fx:id="colName" text="Full Name" prefWidth="180"/>
+                            <TableColumn fx:id="colProgramme" text="Programme" prefWidth="150"/>
+                            <TableColumn fx:id="colLevel" text="Level" prefWidth="70"/>
+                            <TableColumn fx:id="colGpa" text="GPA" prefWidth="70"/>
+                            <TableColumn fx:id="colEmail" text="Email" prefWidth="180"/>
+                            <TableColumn fx:id="colPhone" text="Phone" prefWidth="120"/>
+                            <TableColumn fx:id="colStatus" text="Status" prefWidth="90"/>
+                        </columns>
+                    </TableView>
+
+                    <Label fx:id="lblCount" text="0 students"/>
+                </VBox>
+            </Tab>
+
+            <!-- Reports Tab -->
+            <Tab text="Reports">
+                <VBox spacing="15" style="-fx-padding: 15;">
+                    <Label text="Select Report Type:" style="-fx-font-weight: bold;"/>
+                    
+                    <HBox spacing="10">
+                        <Button text="Top Performers" onAction="#showTopPerformers"/>
+                        <Button text="At-Risk Students" onAction="#showAtRisk"/>
+                        <Button text="GPA Distribution" onAction="#showGpaDist"/>
+                        <Button text="Programme Summary" onAction="#showProgSummary"/>
+                    </HBox>
+
+                    <Label fx:id="lblReportTitle" text="Select a report above" style="-fx-font-size: 14px;"/>
+                    
+                    <TableView fx:id="reportTable" VBox.vgrow="ALWAYS"/>
+                    
+                    <Button text="Export This Report" onAction="#onExportReport"/>
+                </VBox>
+            </Tab>
+
+            <!-- Import/Export Tab -->
+            <Tab text="Import/Export">
+                <VBox spacing="20" style="-fx-padding: 20;">
+                    <Label text="Import Students from CSV" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="File:"/>
+                        <TextField fx:id="txtImportFile" prefWidth="350" editable="false"/>
+                        <Button text="Browse..." onAction="#onBrowseImport"/>
+                        <Button text="Import" onAction="#onImport" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                    </HBox>
+                    
+                    <Label fx:id="lblImportStatus" text=""/>
+                    
+                    <Separator/>
+                    
+                    <Label text="Export Data to CSV" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    
+                    <VBox spacing="10">
+                        <Button text="Export All Students" onAction="#onExportAll" prefWidth="200"/>
+                        <Button text="Export Top Performers" onAction="#onExportTop" prefWidth="200"/>
+                        <Button text="Export At-Risk Students" onAction="#onExportRisk" prefWidth="200"/>
+                    </VBox>
+                    
+                    <Label fx:id="lblExportStatus" text=""/>
+                </VBox>
+            </Tab>
+
+            <!-- Settings Tab -->
+            <Tab text="Settings">
+                <VBox spacing="20" style="-fx-padding: 20;">
+                    <Label text="Settings" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    
+                    <VBox spacing="10">
+                        <Label text="At-Risk GPA Threshold" style="-fx-font-weight: bold;"/>
+                        <Label text="Students with GPA below this value appear in the At-Risk report."/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Threshold:"/>
+                            <TextField fx:id="txtThreshold" text="2.0" prefWidth="80"/>
+                            <Button text="Save" onAction="#onSaveThreshold" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                        </HBox>
+                        <Label fx:id="lblThresholdMsg" text=""/>
+                    </VBox>
+                </VBox>
+            </Tab>
+
+        </TabPane>
+    </center>
+
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox style="-fx-padding: 5; -fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 1 0 0 0;" spacing="20">
+            <Label fx:id="lblStatus" text="Ready"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Student Management System v1.0"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

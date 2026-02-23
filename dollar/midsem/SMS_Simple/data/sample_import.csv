@@ -1,0 +1,6 @@
+StudentID,FullName,Programme,Level,GPA,Email,PhoneNumber,DateAdded,Status
+STU001,Alice Mensah,Computer Science,300,3.85,alice@uni.edu,0241234567,2024-01-15,ACTIVE
+STU002,Kwame Asante,Computer Science,200,1.75,kwame@uni.edu,0209876543,2024-01-15,ACTIVE
+STU003,Abena Osei,Mathematics,400,2.90,abena@uni.edu,0271234567,2024-02-01,ACTIVE
+STU004,Kofi Boateng,Physics,100,3.20,kofi@uni.edu,0551234567,2024-02-01,ACTIVE
+STU005,Ama Adjei,Engineering,300,3.60,ama@uni.edu,0241567890,2024-02-10,ACTIVE

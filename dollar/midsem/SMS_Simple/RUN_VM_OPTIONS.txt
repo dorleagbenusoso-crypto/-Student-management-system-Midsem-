@@ -1,0 +1,14 @@
+========================================
+Student Management System - Simple Version
+========================================
+
+MAIN CLASS:  com.smssimple.MainApp
+
+VM OPTIONS:
+--module-path "C:\javafx\javafx-sdk-21\lib" --add-modules javafx.controls,javafx.fxml
+
+Replace C:\javafx\javafx-sdk-21\lib with your actual JavaFX SDK location.
+
+Required:
+- JDK 21
+- JavaFX SDK 21
